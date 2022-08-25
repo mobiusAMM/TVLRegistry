@@ -199,7 +199,7 @@ export const fetch = async (): Promise<void> => {
       new Fraction(0)
     );
 
-  await fs.writeFile("data/pools.json", JSON.stringify(tvl.asNumber, null, 2));
+  await fs.writeFile("data/tvl.json", JSON.stringify(tvl.asNumber, null, 2));
 
   console.log(`TVL: $${tvl.toFixed(2, { groupSeparator: "," })} `);
 };
