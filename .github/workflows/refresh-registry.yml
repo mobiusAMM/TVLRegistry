@@ -1,0 +1,25 @@
+name: Refresh Registry
+
+on:
+  schedule:
+    - cron: "2 * * * *"
+  workflow_dispatch: {}
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    name: Refresh Mobius TVL Registry
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/yarn
+      - run: yarn typechain
+      - run: yarn registry:sync
+      - run: |
+          if [ "$(git diff-index HEAD)" != '' ]; then
+            git config --global user.email "teasegrizzley@protonmail.com"
+            git config --global user.name "teaseGrizzley"
+            git add .
+            git commit -m "Update list"
+            git push origin HEAD
+          fi
